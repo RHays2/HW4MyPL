@@ -2,7 +2,7 @@
 #
 # Author: Joshua Go
 # Course: CPSC 326, Spring 2019
-# Assignment: 3
+# Assignment: 4
 # Description:
 #   This is a lexical analyzer program for MyPL that identifies token types such as comma and while. It takes in a
 #   source file written in MyPL and outputs the set of tokens in the file

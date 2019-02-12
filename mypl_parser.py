@@ -2,7 +2,7 @@
 #
 # Author: Joshua Go
 # Course: CPSC 326, Spring 2019
-# Assignment: 3
+# Assignment: 4
 # Description:
 #   This is a syntax checker that uses recursive descent parsing. It takes in a source file written in MyPL and reports
 #   the first error that it finds, or nothing if the input is syntactically well-formed.
@@ -10,6 +10,7 @@
 import mypl_error as error
 import mypl_lexer as lexer
 import mypl_token as token
+import mypl_ast as ast
 
 class Parser(object):
 
@@ -20,9 +21,11 @@ class Parser(object):
 
     def parse(self):
         """succeeds if program is syntactically well-formed"""
+        stmts_node = ast.StmtList()
         self.__advance()
-        self.__stmts()
+        self.__stmts(stmts_node)
         self.__eat(token.EOS, 'expecting end of file')
+        return stmts_node
 
     def __advance(self):
         self.current_token = self.lexer.next_token()
@@ -40,31 +43,34 @@ class Parser(object):
         raise error.MyPLError(error_msg, l, c)
 
     # Beginning of recursive descent functions
-    def __stmts(self):
+    def __stmts(self, stmts_node):
         """"<stmts> ::= <stmt> <stmts> | e"""
         if self.current_token.tokentype != token.EOS:
-            self.__stmt()
-            self.__stmts()
+            self.__stmt(stmts_node)
+            self.__stmts(stmts_node)
 
     # statement checker
-    def __stmt(self):
+    def __stmt(self, stmts_node):
         """<stmt> ::= <sdecl> | <fdecl> | <bstmt>"""
         if self.current_token.tokentype == token.STRUCTTYPE:
-            self.__sdecl()
+            self.__sdecl(stmts_node)
         elif self.current_token.tokentype == token.FUN:
-            self.__fdecl()
+            self.__fdecl(stmts_node)
         else:
-            self.__bstmt()
+            self.__bstmt(stmts_node)
 
     # struct declaration
-    def __sdecl(self):
+    def __sdecl(self, stmts_node):
+        struct_decl_stmt_node = ast.StructDeclStmt()
         self.__advance()
+        struct_decl_stmt_node.struct_id = self.current_token.tokentype
         self.__eat(token.ID, "Missing 'id'")
-        self.__vdecls()
+        self.__vdecls(struct_decl_stmt_node)
         self.__eat(token.END, "Missing 'end' statement")
+        return struct_decl_stmt_node
 
     # function declaration
-    def __fdecl(self):
+    def __fdecl(self, stmts_node):
         self.__eat(token.FUN, "Missing 'fun' declaration for function")
         if self.current_token.tokentype == token.NIL:
             self.__advance()
@@ -90,7 +96,7 @@ class Parser(object):
                 self.__type()
 
     # boolean statement
-    def __bstmt(self):
+    def __bstmt(self, stmts_node):
         expr_tokens = [token.ID, token.STRINGVAL, token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW,
                   token.LPAREN]
         if self.current_token.tokentype == token.VAR:
@@ -203,24 +209,28 @@ class Parser(object):
             self.__eat(token.ID, "Missing 'ID' variable")
 
     # value declaration statement
-    def __vdecls(self):
+    def __vdecls(self, struct_decl_stmt_node):
         if self.current_token.tokentype == token.VAR:
-            self.__vdecl()
-            self.__vdecls()
+            self.__vdecl(struct_decl_stmt_node)
+            self.__vdecls(struct_decl_stmt_node)
 
     # value declaration
-    def __vdecl(self):
+    def __vdecl(self, struct_decl_stmt_node):
+        var_decl_stmt_node = ast.VarDeclStmt()
         self.__eat(token.VAR, "Missing 'var' declaration")
+        var_decl_stmt_node.var_id = self.current_token
+        var_decl_stmt_node.var_type = self.current_token.tokentype
         self.__eat(token.ID, "Missing 'ID' declaration")
-        self.__tdecl()
+        self.__tdecl(var_decl_stmt_node)
         self.__eat(token.ASSIGN, "Missing assign '=' declaration")
         self.__expr()
         self.__eat(token.SEMICOLON, "Missing semicolon")
 
     #   tail declaration
-    def __tdecl(self):
+    def __tdecl(self, var_decl_stmt_node):
         if self.current_token.tokentype == token.COLON:
             self.__advance()
+            var_decl_stmt_node.var_type = self.current_token.tokentype
             self.__type()
 
     # function that defines variable type grammar
