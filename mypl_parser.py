@@ -67,7 +67,7 @@ class Parser(object):
         self.__eat(token.ID, "Missing 'id'")
         self.__vdecls(struct_decl_stmt_node)
         self.__eat(token.END, "Missing 'end' statement")
-        return struct_decl_stmt_node
+        stmts_node.stmt.append(struct_decl_stmt_node)    # add new node to StmtList
 
     # function declaration
     def __fdecl(self, stmts_node):
@@ -219,12 +219,12 @@ class Parser(object):
         var_decl_stmt_node = ast.VarDeclStmt()
         self.__eat(token.VAR, "Missing 'var' declaration")
         var_decl_stmt_node.var_id = self.current_token
-        var_decl_stmt_node.var_type = self.current_token.tokentype
         self.__eat(token.ID, "Missing 'ID' declaration")
         self.__tdecl(var_decl_stmt_node)
         self.__eat(token.ASSIGN, "Missing assign '=' declaration")
-        self.__expr()
+        self.__expr(var_decl_stmt_node)
         self.__eat(token.SEMICOLON, "Missing semicolon")
+        struct_decl_stmt_node.var_decls.append(var_decl_stmt_node) # add to VarDeclStmt list
 
     #   tail declaration
     def __tdecl(self, var_decl_stmt_node):
@@ -249,60 +249,87 @@ class Parser(object):
             self.__error("Variable type not valid")
 
     # function for defining expressions
-    def __expr(self):
+    def __expr(self, var_decl_stmt_node):
         if self.current_token.tokentype == token.LPAREN:
             self.__advance()
             self.__expr()
             self.__eat(token.RPAREN, "Missing right parenthesis")
-        else:
-            self.__rvalue()
+        else:   # simple expression
+            simple_expr_node = ast.SimpleExpr()
+            self.__rvalue(simple_expr_node)
+            return simple_expr_node
         mathrels = [token.PLUS, token.MINUS, token.DIVIDE, token.MULTIPLY, token.MODULO]
         if self.current_token.tokentype in mathrels:
             self.__advance()
             self.__expr()
 
     # defines right values for expressions
-    def __rvalue(self):
+    def __rvalue(self, simple_expr_node):
         if self.current_token.tokentype == token.STRINGVAL:
+            simple_rvalue_node = ast.SimpleRValue()
+            simple_rvalue_node.val = self.current_token
+            simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.INTVAL:
+            simple_rvalue_node = ast.SimpleRValue()
+            simple_rvalue_node.val = self.current_token
+            simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.BOOLVAL:
+            simple_rvalue_node = ast.SimpleRValue()
+            simple_rvalue_node.val = self.current_token
+            simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.FLOATVAL:
+            simple_rvalue_node = ast.SimpleRValue()
+            simple_rvalue_node.val = self.current_token
+            simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.NIL:
+            simple_rvalue_node = ast.SimpleRValue()
+            simple_rvalue_node.val = self.current_token
+            simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.NEW:
             self.__advance()
+            new_rvalue_node = ast.NewRValue()
+            new_rvalue_node.struct_type = self.current_token
             self.__eat(token.ID, "Missing 'ID'")
+            simple_expr_node.term = new_rvalue_node
         elif self.current_token.tokentype == token.ID:
-            self.__idrval()
+            self.__idrval(simple_expr_node)
         else:
             self.__error("Missing variable declaration")
 
     # defines values for ID
-    def __idrval(self):
+    def __idrval(self, simple_expr_node):
         if self.current_token.tokentype == token.ID:
+            call_rvalue_node = ast.CallRValue()
+            call_rvalue_node.fun = self.current_token
+
+            id_rvalue_node = ast.IDRvalue()
+            id_rvalue_node.path.append(self.current_token)
             self.__advance()
             if self.current_token.tokentype == token.DOT:
                 while self.current_token.tokentype == token.DOT:
                     self.__advance()
+                    id_rvalue_node.path.append(self.current_token)
                     self.__eat(token.ID, "Missing 'ID'")
+                simple_expr_node.term = id_rvalue_node
             elif self.current_token.tokentype == token.LPAREN:
                 self.__eat(token.LPAREN, "Missing left parenthesis")
-                self.__exprlist()
+                self.__exprlist(call_rvalue_node)
                 self.__eat(token.RPAREN, "Missing right parenthesis")
 
     # function contains grammar for expressions
-    def __exprlist(self):
+    def __exprlist(self, call_rvalue_node):
         # tokens that can start an expression
         types = [token.STRINGVAL, token.INTVAL, token.FLOATVAL, token.BOOLVAL, token.ID, token.LPAREN]
         if self.current_token.tokentype in types:
-            self.__expr()
+            call_rvalue_node.args.append(self.__expr())
             while self.current_token.tokentype == token.COMMA:
                 self.__advance()
-                self.__expr()
+                call_rvalue_node.args.append(self.__expr())
 
 
 
