@@ -25,10 +25,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mypl_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4265">
-              <caret line="325" column="45" lean-forward="true" selection-start-line="325" selection-start-column="45" selection-end-line="325" selection-end-column="45" />
+            <state relative-caret-position="421">
+              <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
               <folding>
+                <element signature="n#!!doc" />
                 <element signature="e#386#412#0" expanded="true" />
+                <element signature="e#554#606#0" />
+                <element signature="e#901#945#0" />
+                <element signature="e#998#1122#0" />
+                <element signature="e#1166#1358#0" />
               </folding>
             </state>
           </provider>
@@ -155,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1549998476742</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="testing ast">
+      <created>1550010325301</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1550010325303</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -223,13 +235,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hw4.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mypl_ast.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1275">
@@ -237,12 +242,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hw4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mypl_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4265">
-          <caret line="325" column="45" lean-forward="true" selection-start-line="325" selection-start-column="45" selection-end-line="325" selection-end-column="45" />
+        <state relative-caret-position="421">
+          <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
           <folding>
+            <element signature="n#!!doc" />
             <element signature="e#386#412#0" expanded="true" />
+            <element signature="e#554#606#0" />
+            <element signature="e#901#945#0" />
+            <element signature="e#998#1122#0" />
+            <element signature="e#1166#1358#0" />
           </folding>
         </state>
       </provider>

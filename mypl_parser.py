@@ -222,7 +222,7 @@ class Parser(object):
         self.__eat(token.ID, "Missing 'ID' declaration")
         self.__tdecl(var_decl_stmt_node)
         self.__eat(token.ASSIGN, "Missing assign '=' declaration")
-        self.__expr(var_decl_stmt_node)
+        var_decl_stmt_node.var_expr = self.__expr()
         self.__eat(token.SEMICOLON, "Missing semicolon")
         struct_decl_stmt_node.var_decls.append(var_decl_stmt_node) # add to VarDeclStmt list
 
@@ -249,10 +249,11 @@ class Parser(object):
             self.__error("Variable type not valid")
 
     # function for defining expressions
-    def __expr(self, var_decl_stmt_node):
+    def __expr(self):
         if self.current_token.tokentype == token.LPAREN:
+            complex_expr_node = ast.ComplexExpr()
             self.__advance()
-            self.__expr()
+            complex_expr_node.first_operand = self.__expr()
             self.__eat(token.RPAREN, "Missing right parenthesis")
         else:   # simple expression
             simple_expr_node = ast.SimpleExpr()
@@ -260,8 +261,10 @@ class Parser(object):
             return simple_expr_node
         mathrels = [token.PLUS, token.MINUS, token.DIVIDE, token.MULTIPLY, token.MODULO]
         if self.current_token.tokentype in mathrels:
+            complex_expr_node.math_rel = self.current_token
             self.__advance()
-            self.__expr()
+            complex_expr_node.rest = self.__expr()
+            return complex_expr_node
 
     # defines right values for expressions
     def __rvalue(self, simple_expr_node):
