@@ -1,5 +1,11 @@
+#!/usr/bin/python3
+#
+# Author: Joshua Go
+# Course: CPSC 326, Spring 2019
+# Assignment: 4
 import mypl_token as token
 
+# don't really have to use, just an "organizational" class to separate out statements from other node types
 class ASTNode(object):
     """The base class for the abstract syntax tree."""
     def accept(self, visitor): pass

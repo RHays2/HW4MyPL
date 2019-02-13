@@ -2,11 +2,14 @@
 #
 # Author: Joshua Go
 # Course: CPSC 326, Spring 2019
-# Assignment: 3
+# Assignment: 4
 # Description:
 #   This is a lexical analyzer program for MyPL that identifies token types such as comma and while. It takes in a
 #   source file written in MyPL and outputs the set of tokens in the file
 # ----------------------------------------------------------------------
+
+import mypl_token as token
+import mypl_error as error
 
 import mypl_token as token
 import mypl_error as error
@@ -91,7 +94,7 @@ class Lexer(object):
                 if not foundSymbol:
                     self.column += 1
                 # compare symbol to the token types in mypl_token.py
-                if self.__peek() == " " or endLine or foundSymbol:
+                if self.__peek() == " " or endLine or foundSymbol or self.__peek() == '':
                     # read the whitespace if it is not the end of the line
                     if not endLine and not foundSymbol:
                         self.__read()
@@ -227,9 +230,9 @@ class Lexer(object):
                                         raise error.MyPLError('unexpected symbol "' + i + '"', line, column)
                                     if i == '.':
                                         # throw error if '.' is lacking a number after it
-                                        if i == sym[-1]:
+                                        if numberInFront and i == sym[-1]:
                                             raise error.MyPLError('missing digit in float value', line,
-                                                                  column+1+sym.index('.'))
+                                                                  column + 1 + sym.index('.'))
                                         numDecimals += 1
                                     else:
                                         isNumber = False
@@ -260,11 +263,41 @@ class Lexer(object):
                         foundSymbol = True
                     elif self.__peek() == ",":
                         foundSymbol = True
+                    elif not symbol.isdigit() and symbol.isalpha() and self.__peek() == ".":
+                        foundSymbol = True
+                    elif self.__peek() == '%':
+                        foundSymbol = True
+                    elif self.__peek() == '+':
+                        foundSymbol = True
+                    elif self.__peek() == '/':
+                        foundSymbol = True
+                    elif self.__peek() == '-':
+                        foundSymbol = True
+                elif self.__peek() == '=' and symbol[0].isalpha():
+                    foundSymbol = True
+                elif symbol == '=' and self.__peek().isdigit():
+                    foundSymbol = True
+                elif symbol == '==' and self.__peek().isdigit():
+                    foundSymbol = True
                 elif self.__peek() == ",":
                     foundSymbol = True
                 elif symbol == ',':
                     foundSymbol = True
+                elif not symbol.isalpha() and not symbol.isdigit() and self.__peek() == '.':
+                    foundSymbol = True
                 elif symbol == ':':
+                    foundSymbol = True
+                elif symbol == '%':
+                    foundSymbol = True
+                elif symbol == '+':
+                    foundSymbol = True
+                elif symbol == '/':
+                    foundSymbol = True
+                elif symbol == '-':
+                    foundSymbol = True
+                elif self.__peek() == '=' and symbol[-1].isdigit():
+                    foundSymbol = True
+                elif self.__peek().isalpha() and symbol[-1] == '.':
                     foundSymbol = True
                 elif symbol == '!=':
                     if self.__peek().isdigit() or self.__peek().isalpha() or self.__isfloat(symbol):
@@ -290,7 +323,6 @@ class Lexer(object):
                     foundSymbol = True
                 elif symbol[0] == ';' or symbol[0] == '(' or symbol[0] == ')':
                     foundSymbol = True
-
         # end of the file
         self.column = 0
         return token.Token(token.EOS, '', self.line, self.column)

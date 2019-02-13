@@ -2,7 +2,7 @@
 #
 # Author: Joshua Go
 # Course: CPSC 326, Spring 2019
-# Assignment: 3
+# Assignment: 4
 # Description:
 #   This is part of a lexical analyzer program for MyPL that identifies token types such as comma and while. This file
 #   returns an error message based on the line and column that it was found

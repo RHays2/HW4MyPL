@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+#
+# Author: Joshua Go
+# Course: CPSC 326, Spring 2019
+# Assignment: 4
 import mypl_token as token
 import mypl_ast as ast
 
