@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="be73e15c-3a28-4724-9ada-eba54d09badb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mypl_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypl_lexer.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_lexer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,10 +22,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mypl_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
+            <state relative-caret-position="290">
               <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc" />
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mypl_lexer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2136">
-              <caret line="218" column="35" selection-start-line="218" selection-start-column="35" selection-end-line="218" selection-end-column="35" />
+            <state relative-caret-position="222">
+              <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
               <folding>
                 <element signature="e#367#393#0" expanded="true" />
                 <element signature="e#2228#2503#0" />
@@ -124,8 +124,8 @@
         <option value="$PROJECT_DIR$/mypl_error.py" />
         <option value="$PROJECT_DIR$/mypl_token.py" />
         <option value="$PROJECT_DIR$/mypl_ast.py" />
-        <option value="$PROJECT_DIR$/mypl_lexer.py" />
         <option value="$PROJECT_DIR$/mypl_parser.py" />
+        <option value="$PROJECT_DIR$/mypl_lexer.py" />
       </list>
     </option>
   </component>
@@ -211,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550025821987</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="testing ast">
+      <created>1550030644822</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1550030644822</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -286,6 +293,21 @@
     <entry file="file://$PROJECT_DIR$/hw4_t3.mypl">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/mypl_parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
+          <folding>
+            <element signature="n#!!doc" />
+            <element signature="e#386#412#0" expanded="true" />
+            <element signature="e#554#606#0" />
+            <element signature="e#901#945#0" />
+            <element signature="e#998#1122#0" />
+            <element signature="e#1166#1358#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/hw4_r3.mypl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -295,27 +317,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mypl_lexer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2136">
-          <caret line="218" column="35" selection-start-line="218" selection-start-column="35" selection-end-line="218" selection-end-column="35" />
+        <state relative-caret-position="222">
+          <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
           <folding>
             <element signature="e#367#393#0" expanded="true" />
             <element signature="e#2228#2503#0" />
             <element signature="e#3112#3230#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mypl_parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#386#412#0" expanded="true" />
-            <element signature="e#554#606#0" />
-            <element signature="e#901#945#0" />
-            <element signature="e#998#1122#0" />
-            <element signature="e#1166#1358#0" />
           </folding>
         </state>
       </provider>
