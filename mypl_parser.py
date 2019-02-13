@@ -57,7 +57,7 @@ class Parser(object):
         elif self.current_token.tokentype == token.FUN:
             self.__fdecl(stmts_node)
         else:
-            stmts_node.stmts.append(self.__bstmt())
+            stmts_node.smts.append(self.__bstmt())
 
     # struct declaration
     def __sdecl(self, stmts_node):
@@ -82,7 +82,7 @@ class Parser(object):
         self.__eat(token.LPAREN, "Missing left parenthesis")
         self.__params(fun_decl_stmt_node)
         self.__eat(token.RPAREN, "Missing right parenthesis")
-        fun_decl_stmt_node.stmt_list.append(self.__bstmts())
+        self.__bstmts(fun_decl_stmt_node.stmt_list)
         self.__eat(token.END, "Missing 'end' statement")
         stmts_node.stmt.append(fun_decl_stmt_node)  # add new node to StmtList
 
@@ -113,120 +113,143 @@ class Parser(object):
         if self.current_token.tokentype == token.VAR:
             return self.__vdecl()
         elif self.current_token.tokentype == token.SET:
-            self.__assign()
+            return self.__assign()
         elif self.current_token.tokentype == token.IF:
-            self.__cond()
+            return self.__cond()
         elif self.current_token.tokentype == token.WHILE:
-            self.__while()
+            return self.__while()
         elif self.current_token.tokentype in expr_tokens:
-            self.__expr()
+            expr_stmt_node = ast.ExprStmt()
+            expr_stmt_node.expr = self.__expr()
             self.__eat(token.SEMICOLON, "Missing semicolon")
+            return expr_stmt_node
         elif self.current_token.tokentype == token.RETURN:
-            self.__exit()
+            return self.__exit()
         else:
             raise error.MyPLError("Invalid statement", self.current_token.line, self.current_token.column)
 
     # grammar for return statements
     def __exit(self):
+        return_stmt_node = ast.ReturnStmt()
         expr_tokens = [token.ID, token.STRINGVAL, token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW,
                        token.LPAREN]
         self.__eat(token.RETURN, "Missing 'return' statement")
         if self.current_token.tokentype in expr_tokens:
             self.__expr()
         self.__eat(token.SEMICOLON, "Missing semicolon after 'return' statement")
+        return return_stmt_node
 
     # grammar for while-loops
     def __while(self):
+        while_stmt_node = ast.WhileStmt()
         self.__eat(token.WHILE, "Missing 'while' statement for loop")
-        self.__bexpr()
+        while_stmt_node.bool_expr = self.__bexpr()
         self.__eat(token.DO, "Missing 'do' statement for loop")
-        self.__bstmts()
+        self.__bstmts(while_stmt_node.stmt_list)
         self.__eat(token.END, "Missing 'end' statement for loop")
+        return while_stmt_node
 
     # grammar for the if-else conditional statements
     def __cond(self):
+        if_stmt_node = ast.IfStmt()
         self.__eat(token.IF, "Missing 'if' statement")
-        self.__bexpr()
+        if_stmt_node.if_part.bool_expr = self.__bexpr()
         self.__eat(token.THEN, "Missing 'then' statement")
-        self.__bstmts()
-        self.__condt()
+        self.__bstmts(if_stmt_node.else_stmts)
+        self.__condt(if_stmt_node)
         self.__eat(token.END, "Missing 'end' statement")
+        return if_stmt_node
 
     # grammar for conditional tail
-    def __condt(self):
+    def __condt(self, if_stmt_node):
+        basic_if_node = ast.BasicIf()
         if self.current_token.tokentype == token.ELIF:
             self.__advance()
-            self.__bexpr()
+            basic_if_node.bool_expr = self.__bexpr()
             self.__eat(token.THEN, "Missing 'then' statement")
-            self.__bstmts()
-            self.__condt()
+            self.__bstmts(basic_if_node.stmt_list)
+            self.__condt(if_stmt_node)
         elif self.current_token.tokentype == token.ELSE:
+            if_stmt_node.has_else = True
             self.__advance()
-            self.__bstmts()
+            self.__bstmts(basic_if_node.stmt_list)
+        if_stmt_node.elseifs.append(basic_if_node)
 
-    def __bstmts(self):
+    def __bstmts(self, stmts_node):
         bstmt_tokens = [token.WHILE, token.RETURN, token.IF, token.SET, token.VAR, token.ID, token.STRINGVAL,
                         token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW, token.LPAREN]
         if self.current_token.tokentype in bstmt_tokens:
-            self.__bstmt()
-            self.__bstmts()
+            stmts_node.stmt.append(self.__bstmt())
+            self.__bstmts(stmts_node)
 
     # grammar for boolean expressions
     def __bexpr(self):
+        bool_expr_node = ast.BoolExpr()
         if self.current_token.tokentype == token.NOT:
+            bool_expr_node.negated = True
             self.__advance()
-            self.__bexpr()
-            self.__bexprt()
+            bool_expr_node.rest = self.__bexpr()
+            self.__bexprt(bool_expr_node)
         elif self.current_token.tokentype == token.LPAREN:
             self.__advance()
-            self.__bexpr()
+            bool_expr_node.rest = self.__bexpr()
             self.__eat(token.RPAREN, "Missing right paren")
-            self.__bconnct()
+            self.__bconnct(bool_expr_node)
         else:
-            self.__expr()
-            self.__bexprt()
+            bool_expr_node.first_expr = self.__expr()
+            self.__bexprt(bool_expr_node)
+        return bool_expr_node
 
     # tail for bexpr()
-    def __bexprt(self):
+    def __bexprt(self, bool_expr_node):
         boolrel = [token.EQUAL, token.LESS_THAN, token.GREATER_THAN, token.LESS_THAN_EQUAL, token.GREATER_THAN_EQUAL,
                    token.NOT_EQUAL]
         if self.current_token.tokentype in boolrel:
+            bool_expr_node.bool_rel = self.current_token
             self.__advance()
-            self.__expr()
-        self.__bconnct()
+            bool_expr_node.second_expr = self.__expr()
+        self.__bconnct(bool_expr_node)
 
     # grammar on how boolean variables connect
-    def __bconnct(self):
+    def __bconnct(self, bool_expr_node):
         if self.current_token.tokentype == token.AND:
+            bool_expr_node.bool_connector = self.current_token
             self.__advance()
-            self.__bexpr()
+            bool_expr_node.rest = self.__bexpr()
         elif self.current_token.tokentype == token.OR:
+            bool_expr_node.bool_connector = self.current_token
             self.__advance()
-            self.__bexpr()
+            bool_expr_node.rest = self.__bexpr()
 
     # function that defines the grammar to assign values to variables
     def __assign(self):
+        assign_stmt_node = ast.AssignStmt()
         self.__eat(token.SET, "Missing 'set' variable")
-        self.__lvalue()
+        self.__lvalue(assign_stmt_node)
         self.__eat(token.ASSIGN, "Missing assign '=' variable")
-        self.__expr()
+        assign_stmt_node.rhs = self.__expr()
         self.__eat(token.SEMICOLON, "Missing semicolon")
+        return assign_stmt_node
 
     # left value grammar
-    def __lvalue(self):
+    def __lvalue(self, assign_stmt_node):
+        lvalue_node = ast.LValue()
+        lvalue_node.path.append(self.current_token)
         self.__eat(token.ID, "Missing 'ID' variable")
         while self.current_token.tokentype == token.DOT:
             self.__advance()
+            lvalue_node.path.append(self.current_token)
             self.__eat(token.ID, "Missing 'ID' variable")
+        assign_stmt_node.lhs = lvalue_node
 
     # value declaration statement
     def __vdecls(self, struct_decl_stmt_node):
         if self.current_token.tokentype == token.VAR:
-            self.__vdecl(struct_decl_stmt_node)
+            struct_decl_stmt_node.var_decls.append(self.__vdecl())
             self.__vdecls(struct_decl_stmt_node)
 
     # value declaration
-    def __vdecl(self, struct_decl_stmt_node):
+    def __vdecl(self):
         var_decl_stmt_node = ast.VarDeclStmt()
         self.__eat(token.VAR, "Missing 'var' declaration")
         var_decl_stmt_node.var_id = self.current_token
@@ -235,7 +258,7 @@ class Parser(object):
         self.__eat(token.ASSIGN, "Missing assign '=' declaration")
         var_decl_stmt_node.var_expr = self.__expr()
         self.__eat(token.SEMICOLON, "Missing semicolon")
-        struct_decl_stmt_node.var_decls.append(var_decl_stmt_node) # add to VarDeclStmt list
+        return var_decl_stmt_node
 
     #   tail declaration
     def __tdecl(self, var_decl_stmt_node):

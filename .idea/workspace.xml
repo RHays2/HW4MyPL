@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="be73e15c-3a28-4724-9ada-eba54d09badb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mypl_lexer.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_lexer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mypl_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_parser.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mypl_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="113" column="19" selection-start-line="113" selection-start-column="19" selection-end-line="113" selection-end-column="19" />
+            <state relative-caret-position="322">
+              <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc" />
                 <element signature="e#386#412#0" expanded="true" />
@@ -100,10 +99,11 @@
       <find>rvalue</find>
       <find>__bstmt</find>
       <find>assign</find>
-      <find>vdecl</find>
       <find>vardeclstmt</find>
-      <find>vdecls</find>
       <find>expr</find>
+      <find>vdecl</find>
+      <find>vdecls</find>
+      <find>bexprt</find>
       <find>bstmts</find>
     </findStrings>
   </component>
@@ -129,8 +129,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-104" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-12" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="746" />
@@ -204,14 +204,21 @@
       <option name="project" value="LOCAL" />
       <updated>1550011693908</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="testing ast">
+      <created>1550025821987</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1550025821987</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-104" y="23" width="1280" height="746" extended-state="0" />
+    <frame x="-2" y="24" width="1280" height="746" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -222,7 +229,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32874617" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49960285" visible="true" weight="0.13302752" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49960285" visible="true" weight="0.13302752" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50039715" side_tool="true" weight="0.32874617" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -300,8 +307,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mypl_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="113" column="19" selection-start-line="113" selection-start-column="19" selection-end-line="113" selection-end-column="19" />
+        <state relative-caret-position="322">
+          <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
           <folding>
             <element signature="n#!!doc" />
             <element signature="e#386#412#0" expanded="true" />
