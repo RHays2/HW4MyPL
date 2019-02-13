@@ -57,7 +57,7 @@ class Parser(object):
         elif self.current_token.tokentype == token.FUN:
             self.__fdecl(stmts_node)
         else:
-            stmts_node.smts.append(self.__bstmt())
+            stmts_node.stmts.append(self.__bstmt())
 
     # struct declaration
     def __sdecl(self, stmts_node):
@@ -67,7 +67,7 @@ class Parser(object):
         self.__eat(token.ID, "Missing 'id'")
         self.__vdecls(struct_decl_stmt_node)
         self.__eat(token.END, "Missing 'end' statement")
-        stmts_node.stmt.append(struct_decl_stmt_node)    # add new node to StmtList
+        stmts_node.stmts.append(struct_decl_stmt_node)    # add new node to StmtList
 
     # function declaration
     def __fdecl(self, stmts_node):
@@ -84,7 +84,7 @@ class Parser(object):
         self.__eat(token.RPAREN, "Missing right parenthesis")
         self.__bstmts(fun_decl_stmt_node.stmt_list)
         self.__eat(token.END, "Missing 'end' statement")
-        stmts_node.stmt.append(fun_decl_stmt_node)  # add new node to StmtList
+        stmts_node.stmts.append(fun_decl_stmt_node)  # add new node to StmtList
 
     # grammar for function parameters
     def __params(self, fun_decl_stmt_node):
@@ -133,7 +133,7 @@ class Parser(object):
         return_stmt_node = ast.ReturnStmt()
         expr_tokens = [token.ID, token.STRINGVAL, token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW,
                        token.LPAREN]
-        return_stmt_node.return_token = self.current_token.tokentype
+        return_stmt_node.return_token = self.current_token
         self.__eat(token.RETURN, "Missing 'return' statement")
         if self.current_token.tokentype in expr_tokens:
             return_stmt_node.return_expr = self.__expr()
@@ -180,7 +180,7 @@ class Parser(object):
         bstmt_tokens = [token.WHILE, token.RETURN, token.IF, token.SET, token.VAR, token.ID, token.STRINGVAL,
                         token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW, token.LPAREN]
         if self.current_token.tokentype in bstmt_tokens:
-            stmts_node.stmt.append(self.__bstmt())
+            stmts_node.stmts.append(self.__bstmt())
             self.__bstmts(stmts_node)
 
     # grammar for boolean expressions
@@ -285,21 +285,21 @@ class Parser(object):
 
     # function for defining expressions
     def __expr(self):
+        simple_expr_node = ast.SimpleExpr()
+        complex_expr_node = ast.ComplexExpr()
         if self.current_token.tokentype == token.LPAREN:
-            complex_expr_node = ast.ComplexExpr()
             self.__advance()
             complex_expr_node.first_operand = self.__expr()
             self.__eat(token.RPAREN, "Missing right parenthesis")
         else:   # simple expression
-            simple_expr_node = ast.SimpleExpr()
             self.__rvalue(simple_expr_node)
-            return simple_expr_node
         mathrels = [token.PLUS, token.MINUS, token.DIVIDE, token.MULTIPLY, token.MODULO]
         if self.current_token.tokentype in mathrels:
             complex_expr_node.math_rel = self.current_token
             self.__advance()
             complex_expr_node.rest = self.__expr()
             return complex_expr_node
+        return simple_expr_node
 
     # defines right values for expressions
     def __rvalue(self, simple_expr_node):

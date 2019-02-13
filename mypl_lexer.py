@@ -11,6 +11,9 @@
 import mypl_token as token
 import mypl_error as error
 
+import mypl_token as token
+import mypl_error as error
+
 class Lexer(object):
 
     def __init__(self, input_stream):
