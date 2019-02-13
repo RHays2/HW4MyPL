@@ -133,9 +133,10 @@ class Parser(object):
         return_stmt_node = ast.ReturnStmt()
         expr_tokens = [token.ID, token.STRINGVAL, token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW,
                        token.LPAREN]
+        return_stmt_node.return_token = self.current_token.tokentype
         self.__eat(token.RETURN, "Missing 'return' statement")
         if self.current_token.tokentype in expr_tokens:
-            self.__expr()
+            return_stmt_node.return_expr = self.__expr()
         self.__eat(token.SEMICOLON, "Missing semicolon after 'return' statement")
         return return_stmt_node
 
