@@ -57,7 +57,7 @@ class Parser(object):
         elif self.current_token.tokentype == token.FUN:
             self.__fdecl(stmts_node)
         else:
-            self.__bstmt(stmts_node)
+            stmts_node.stmts.append(self.__bstmt())
 
     # struct declaration
     def __sdecl(self, stmts_node):
@@ -71,36 +71,47 @@ class Parser(object):
 
     # function declaration
     def __fdecl(self, stmts_node):
+        fun_decl_stmt_node = ast.FunDeclStmt()
         self.__eat(token.FUN, "Missing 'fun' declaration for function")
         if self.current_token.tokentype == token.NIL:
             self.__advance()
         else:
             self.__type()
+        fun_decl_stmt_node.fun_name = self.current_token
         self.__eat(token.ID, "Missing function ID name")
         self.__eat(token.LPAREN, "Missing left parenthesis")
-        self.__params()
+        self.__params(fun_decl_stmt_node)
         self.__eat(token.RPAREN, "Missing right parenthesis")
-        self.__bstmts()
+        fun_decl_stmt_node.stmt_list.append(self.__bstmts())
         self.__eat(token.END, "Missing 'end' statement")
+        stmts_node.stmt.append(fun_decl_stmt_node)  # add new node to StmtList
 
     # grammar for function parameters
-    def __params(self):
+    def __params(self, fun_decl_stmt_node):
         if self.current_token.tokentype == token.ID:
+            fun_param_node = ast.FunParam()
+            fun_param_node.param_name = self.current_token
             self.__eat(token.ID, "Missing variable name")
             self.__eat(token.COLON, "Missing colon after ID")
+            fun_param_node.param_type = self.current_token.tokentype
             self.__type()
+            fun_decl_stmt_node.params.append(fun_param_node)
             while self.current_token.tokentype == token.COMMA:
                 self.__advance()
+                fun_param_node = ast.FunParam()
+                fun_param_node.param_name = self.current_token
                 self.__eat(token.ID, "Missing ID after comma")
                 self.__eat(token.COLON, "Missing colon after ID")
+                fun_param_node.param_type = self.current_token.tokentype
                 self.__type()
+                fun_decl_stmt_node.params.append(fun_param_node)
 
     # boolean statement
-    def __bstmt(self, stmts_node):
+    def __bstmt(self):
         expr_tokens = [token.ID, token.STRINGVAL, token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW,
                   token.LPAREN]
         if self.current_token.tokentype == token.VAR:
-            self.__vdecl()
+            return self.__vdecl()
         elif self.current_token.tokentype == token.SET:
             self.__assign()
         elif self.current_token.tokentype == token.IF:
@@ -154,8 +165,8 @@ class Parser(object):
             self.__bstmts()
 
     def __bstmts(self):
-        bstmt_tokens = [token.WHILE, token.RETURN, token.IF, token.VAR, token.ID, token.STRINGVAL, token.INTVAL,
-                        token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW, token.LPAREN]
+        bstmt_tokens = [token.WHILE, token.RETURN, token.IF, token.SET, token.VAR, token.ID, token.STRINGVAL,
+                        token.INTVAL, token.BOOLVAL, token.FLOATVAL, token.NIL, token.NEW, token.LPAREN]
         if self.current_token.tokentype in bstmt_tokens:
             self.__bstmt()
             self.__bstmts()
