@@ -359,8 +359,9 @@ class Parser(object):
                 self.__eat(token.LPAREN, "Missing left parenthesis")
                 self.__exprlist(call_rvalue_node)
                 self.__eat(token.RPAREN, "Missing right parenthesis")
+                simple_expr_node.term = call_rvalue_node
 
-    # function contains grammar for expressions
+                # function contains grammar for expressions
     def __exprlist(self, call_rvalue_node):
         # tokens that can start an expression
         types = [token.STRINGVAL, token.INTVAL, token.FLOATVAL, token.BOOLVAL, token.ID, token.LPAREN]
