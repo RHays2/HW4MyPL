@@ -63,7 +63,7 @@ class Parser(object):
     def __sdecl(self, stmts_node):
         struct_decl_stmt_node = ast.StructDeclStmt()
         self.__advance()
-        struct_decl_stmt_node.struct_id = self.current_token.tokentype
+        struct_decl_stmt_node.struct_id = self.current_token.lexeme
         self.__eat(token.ID, "Missing 'id'")
         self.__vdecls(struct_decl_stmt_node)
         self.__eat(token.END, "Missing 'end' statement")
@@ -76,8 +76,9 @@ class Parser(object):
         if self.current_token.tokentype == token.NIL:
             self.__advance()
         else:
+            fun_decl_stmt_node.return_type = self.current_token.tokentype
             self.__type()
-        fun_decl_stmt_node.fun_name = self.current_token
+        fun_decl_stmt_node.fun_name = self.current_token.lexeme
         self.__eat(token.ID, "Missing function ID name")
         self.__eat(token.LPAREN, "Missing left parenthesis")
         self.__params(fun_decl_stmt_node)
@@ -90,19 +91,19 @@ class Parser(object):
     def __params(self, fun_decl_stmt_node):
         if self.current_token.tokentype == token.ID:
             fun_param_node = ast.FunParam()
-            fun_param_node.param_name = self.current_token
+            fun_param_node.param_name = self.current_token.lexeme
             self.__eat(token.ID, "Missing variable name")
             self.__eat(token.COLON, "Missing colon after ID")
-            fun_param_node.param_type = self.current_token.tokentype
+            fun_param_node.param_type = self.current_token.lexeme
             self.__type()
             fun_decl_stmt_node.params.append(fun_param_node)
             while self.current_token.tokentype == token.COMMA:
                 self.__advance()
                 fun_param_node = ast.FunParam()
-                fun_param_node.param_name = self.current_token
+                fun_param_node.param_name = self.current_token.lexeme
                 self.__eat(token.ID, "Missing ID after comma")
                 self.__eat(token.COLON, "Missing colon after ID")
-                fun_param_node.param_type = self.current_token.tokentype
+                fun_param_node.param_type = self.current_token.lexeme
                 self.__type()
                 fun_decl_stmt_node.params.append(fun_param_node)
 
@@ -206,7 +207,7 @@ class Parser(object):
         boolrel = [token.EQUAL, token.LESS_THAN, token.GREATER_THAN, token.LESS_THAN_EQUAL, token.GREATER_THAN_EQUAL,
                    token.NOT_EQUAL]
         if self.current_token.tokentype in boolrel:
-            bool_expr_node.bool_rel = self.current_token
+            bool_expr_node.bool_rel = self.current_token.lexeme
             self.__advance()
             bool_expr_node.second_expr = self.__expr()
         self.__bconnct(bool_expr_node)
@@ -214,11 +215,11 @@ class Parser(object):
     # grammar on how boolean variables connect
     def __bconnct(self, bool_expr_node):
         if self.current_token.tokentype == token.AND:
-            bool_expr_node.bool_connector = self.current_token
+            bool_expr_node.bool_connector = self.current_token.lexeme
             self.__advance()
             bool_expr_node.rest = self.__bexpr()
         elif self.current_token.tokentype == token.OR:
-            bool_expr_node.bool_connector = self.current_token
+            bool_expr_node.bool_connector = self.current_token.lexeme
             self.__advance()
             bool_expr_node.rest = self.__bexpr()
 
@@ -235,11 +236,11 @@ class Parser(object):
     # left value grammar
     def __lvalue(self, assign_stmt_node):
         lvalue_node = ast.LValue()
-        lvalue_node.path.append(self.current_token)
+        lvalue_node.path.append(self.current_token.lexeme)
         self.__eat(token.ID, "Missing 'ID' variable")
         while self.current_token.tokentype == token.DOT:
             self.__advance()
-            lvalue_node.path.append(self.current_token)
+            lvalue_node.path.append(self.current_token.lexeme)
             self.__eat(token.ID, "Missing 'ID' variable")
         assign_stmt_node.lhs = lvalue_node
 
@@ -253,7 +254,7 @@ class Parser(object):
     def __vdecl(self):
         var_decl_stmt_node = ast.VarDeclStmt()
         self.__eat(token.VAR, "Missing 'var' declaration")
-        var_decl_stmt_node.var_id = self.current_token
+        var_decl_stmt_node.var_id = self.current_token.lexeme
         self.__eat(token.ID, "Missing 'ID' declaration")
         self.__tdecl(var_decl_stmt_node)
         self.__eat(token.ASSIGN, "Missing assign '=' declaration")
@@ -295,7 +296,7 @@ class Parser(object):
             self.__rvalue(simple_expr_node)
         mathrels = [token.PLUS, token.MINUS, token.DIVIDE, token.MULTIPLY, token.MODULO]
         if self.current_token.tokentype in mathrels:
-            complex_expr_node.math_rel = self.current_token
+            complex_expr_node.math_rel = self.current_token.lexeme
             self.__advance()
             complex_expr_node.rest = self.__expr()
             return complex_expr_node
@@ -305,33 +306,33 @@ class Parser(object):
     def __rvalue(self, simple_expr_node):
         if self.current_token.tokentype == token.STRINGVAL:
             simple_rvalue_node = ast.SimpleRValue()
-            simple_rvalue_node.val = self.current_token
+            simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.INTVAL:
             simple_rvalue_node = ast.SimpleRValue()
-            simple_rvalue_node.val = self.current_token
+            simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.BOOLVAL:
             simple_rvalue_node = ast.SimpleRValue()
-            simple_rvalue_node.val = self.current_token
+            simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.FLOATVAL:
             simple_rvalue_node = ast.SimpleRValue()
-            simple_rvalue_node.val = self.current_token
+            simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.NIL:
             simple_rvalue_node = ast.SimpleRValue()
-            simple_rvalue_node.val = self.current_token
+            simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.NEW:
             self.__advance()
             new_rvalue_node = ast.NewRValue()
-            new_rvalue_node.struct_type = self.current_token
+            new_rvalue_node.struct_type = self.current_token.lexeme
             self.__eat(token.ID, "Missing 'ID'")
             simple_expr_node.term = new_rvalue_node
         elif self.current_token.tokentype == token.ID:
@@ -343,15 +344,15 @@ class Parser(object):
     def __idrval(self, simple_expr_node):
         if self.current_token.tokentype == token.ID:
             call_rvalue_node = ast.CallRValue()
-            call_rvalue_node.fun = self.current_token
+            call_rvalue_node.fun = self.current_token.lexeme
 
             id_rvalue_node = ast.IDRvalue()
-            id_rvalue_node.path.append(self.current_token)
+            id_rvalue_node.path.append(self.current_token.lexeme)
             self.__advance()
             if self.current_token.tokentype == token.DOT:
                 while self.current_token.tokentype == token.DOT:
                     self.__advance()
-                    id_rvalue_node.path.append(self.current_token)
+                    id_rvalue_node.path.append(self.current_token.lexeme)
                     self.__eat(token.ID, "Missing 'ID'")
                 simple_expr_node.term = id_rvalue_node
             elif self.current_token.tokentype == token.LPAREN:

@@ -28,4 +28,8 @@ class PrintVisitor(ast.Visitor):
         expr_stmt.expr.accept(self)
         self.__write(';\n')
 
+    def visit_var_decl_stmt(self, var_decl):
+        self.__write('var')
+        print(var_decl.var_id)
+
 #... etc. ...
