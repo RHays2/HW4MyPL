@@ -52,19 +52,57 @@ class PrintVisitor(ast.Visitor):
         self.__write(';')
         self.__write('\n')
 
+    def visit_assign_stmt(self, assign_stmt):
+        self.__write('set')
+        self.__write(' ')
+        assign_stmt.lhs.accept(self)    # lvalue node
+        self.__write(' ')
+        self.__write('=')
+        self.__write(' ')
+        assign_stmt.rhs.accept(self)    # Expr node
+        self.__write(';')
+        self.__write('\n')
+
+    def visit_lvalue(self, lval):
+        i = 0
+        self.__write(lval.path[i])
+        i = i + 1
+        while i < len(lval.path):
+            self.__write(".")
+            self.__write(lval.path[i])
+            i = i + 1
+
+    def visit_call_rvalue(self, call_rvalue):
+        self.__write(call_rvalue.fun)
+        self.__write('(')
+        for i in call_rvalue.args:
+            i.accept(self)
+        self.__write(')')
+
+    def visit_id_rvalue(self, id_rvalue):
+        i = 0
+        self.__write(id_rvalue.path[i])
+        i = i + 1
+        while i < len(id_rvalue.path):
+            self.__write(".")
+            self.__write(i)
+            i = i + 1
+
     def visit_simple_expr(self, simple_expr):
-        self.visit_simple_rvalue(simple_expr.term)
+        if simple_expr.term != None:    # issue
+            simple_expr.term.accept(self)
 
     def visit_simple_rvalue(self, simple_rvalue):
-        if simple_rvalue.val != None:
-            self.__write(simple_rvalue.val)
+        self.__write(simple_rvalue.val)
 
     def visit_complex_expr(self, complex_expr):
+        self.__write('(')
         complex_expr.first_operand.accept(self)
         self.__write(' ')
         self.__write(complex_expr.math_rel)
         self.__write(' ')
         complex_expr.rest.accept(self)
+        self.__write(')')
 
     def visit_while_stmt(self, while_stmt):
         self.__write('while')
