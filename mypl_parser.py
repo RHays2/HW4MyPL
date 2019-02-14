@@ -291,6 +291,7 @@ class Parser(object):
         if self.current_token.tokentype == token.LPAREN:
             self.__advance()
             complex_expr_node.first_operand = self.__expr()
+            simple_expr_node.term = complex_expr_node.first_operand
             self.__eat(token.RPAREN, "Missing right parenthesis")
         else:   # simple expression
             self.__rvalue(simple_expr_node, complex_expr_node)
@@ -308,26 +309,31 @@ class Parser(object):
             simple_rvalue_node = ast.SimpleRValue()
             simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
+            complex_expr_node.first_operand = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.INTVAL:
             simple_rvalue_node = ast.SimpleRValue()
             simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
+            complex_expr_node.first_operand = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.BOOLVAL:
             simple_rvalue_node = ast.SimpleRValue()
             simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
+            complex_expr_node.first_operand = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.FLOATVAL:
             simple_rvalue_node = ast.SimpleRValue()
             simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
+            complex_expr_node.first_operand = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.NIL:
             simple_rvalue_node = ast.SimpleRValue()
             simple_rvalue_node.val = self.current_token.lexeme
             simple_expr_node.term = simple_rvalue_node
+            complex_expr_node.first_operand = simple_rvalue_node
             self.__advance()
         elif self.current_token.tokentype == token.NEW:
             self.__advance()
@@ -339,7 +345,7 @@ class Parser(object):
             self.__idrval(simple_expr_node)
         else:
             self.__error("Missing variable declaration")
-        complex_expr_node.first_operand = simple_expr_node
+
 
     # defines values for ID
     def __idrval(self, simple_expr_node):
