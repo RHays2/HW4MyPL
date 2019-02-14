@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="be73e15c-3a28-4724-9ada-eba54d09badb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mypl_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mypl_print_visitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_print_visitor.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mypl_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="353" lean-forward="true" selection-start-line="353" selection-end-line="353" />
+            <state relative-caret-position="4855">
+              <caret line="359" column="50" lean-forward="true" selection-start-line="359" selection-start-column="50" selection-end-line="359" selection-end-column="50" />
               <folding>
                 <element signature="e#386#412#0" expanded="true" />
                 <element signature="e#554#606#0" />
@@ -33,17 +32,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mypl_ast.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="76" column="21" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
+            <state relative-caret-position="123">
+              <caret line="98" column="8" selection-start-line="98" selection-start-column="6" selection-end-line="98" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mypl_print_visitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
+            <state relative-caret-position="233">
+              <caret line="124" column="26" lean-forward="true" selection-start-line="124" selection-start-column="26" selection-end-line="124" selection-end-column="26" />
               <folding>
                 <element signature="e#89#115#0" expanded="true" />
               </folding>
@@ -71,12 +70,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>bstmts</find>
-      <find>whilestmt</find>
-      <find>vardecl</find>
-      <find>while</find>
-      <find>tdecl</find>
-      <find>visit</find>
       <find>complex_expr</find>
       <find>math_rel</find>
       <find>var_decl</find>
@@ -97,10 +90,16 @@
       <find>complexexpr</find>
       <find>simpleexpr</find>
       <find>struct_decl</find>
-      <find>stmtlist</find>
       <find>fun_param</find>
-      <find>expr_stmt</find>
       <find>fun_decl</find>
+      <find>expr_stmt</find>
+      <find>simplervalue</find>
+      <find>returnstmt</find>
+      <find>if_stmt</find>
+      <find>simple_r</find>
+      <find>stmtlist</find>
+      <find>fun</find>
+      <find>if</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -122,9 +121,9 @@
         <option value="$PROJECT_DIR$/mypl_ast.py" />
         <option value="$PROJECT_DIR$/hw4_r3.mypl" />
         <option value="$PROJECT_DIR$/hw4_t4.mypl" />
-        <option value="$PROJECT_DIR$/mypl_print_visitor.py" />
         <option value="$PROJECT_DIR$/hw4_t3.mypl" />
         <option value="$PROJECT_DIR$/mypl_parser.py" />
+        <option value="$PROJECT_DIR$/mypl_print_visitor.py" />
       </list>
     </option>
   </component>
@@ -289,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550120311176</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="testing printer, updated expr() and its subfunctions">
+      <created>1550122154342</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1550122154342</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -328,7 +334,8 @@
     <MESSAGE value="testing ast" />
     <MESSAGE value="testing printer" />
     <MESSAGE value="testing printer, updated expr()" />
-    <option name="LAST_COMMIT_MESSAGE" value="testing printer, updated expr()" />
+    <MESSAGE value="testing printer, updated expr() and its subfunctions" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing printer, updated expr() and its subfunctions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -355,11 +362,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mypl_ast.py</url>
-          <line>221</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mypl_ast.py</url>
           <line>225</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
@@ -372,11 +374,6 @@
           <url>file://$PROJECT_DIR$/mypl_ast.py</url>
           <line>227</line>
           <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mypl_ast.py</url>
-          <line>230</line>
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mypl_ast.py</url>
@@ -397,6 +394,11 @@
           <url>file://$PROJECT_DIR$/mypl_ast.py</url>
           <line>228</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mypl_ast.py</url>
+          <line>229</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -431,13 +433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mypl_token.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-754">
-          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/hw4_r2.mypl">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -458,23 +453,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mypl_print_visitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
-          <folding>
-            <element signature="e#89#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mypl_ast.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="76" column="21" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/hw4_t3.mypl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
@@ -482,16 +460,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mypl_token.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="38" column="11" lean-forward="true" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mypl_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="353" lean-forward="true" selection-start-line="353" selection-end-line="353" />
+        <state relative-caret-position="4855">
+          <caret line="359" column="50" lean-forward="true" selection-start-line="359" selection-start-column="50" selection-end-line="359" selection-end-column="50" />
           <folding>
             <element signature="e#386#412#0" expanded="true" />
             <element signature="e#554#606#0" />
             <element signature="e#901#945#0" />
             <element signature="e#998#1122#0" />
             <element signature="e#1166#1358#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mypl_ast.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="98" column="8" selection-start-line="98" selection-start-column="6" selection-end-line="98" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mypl_print_visitor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="124" column="26" lean-forward="true" selection-start-line="124" selection-start-column="26" selection-end-line="124" selection-end-column="26" />
+          <folding>
+            <element signature="e#89#115#0" expanded="true" />
           </folding>
         </state>
       </provider>

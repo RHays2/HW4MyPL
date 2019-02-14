@@ -88,7 +88,7 @@ class PrintVisitor(ast.Visitor):
             self.__write('float')
         elif fun_decl.return_type == token.BOOLTYPE:
             self.__write('bool')
-        elif fun_decl.return_type == token.NIL:
+        else:
             self.__write('nil')
         self.__write(' ')
         self.__write(fun_decl.fun_name)
@@ -101,15 +101,32 @@ class PrintVisitor(ast.Visitor):
             i.accept(self)
             j = j + 1
         self.__write(')')
+        self.__write('\n')
+        j = 0
         for k in fun_decl.stmt_list.stmts:
-            self.__write('\n')
             self.__write('    ')
             k.accept(self)
 
-        self.__write('\n')
         self.__write('end')
         self.__write('\n')
         self.__write('\n')
+
+    def visit_return_stmt(self, return_stmt):
+        self.__write('return')
+        if return_stmt.return_expr != None:
+            self.__write(' ')
+            return_stmt.return_expr.accept(self)
+        self.__write(';')
+        self.__write('\n')
+
+    def visit_if_stmt(self, if_stmt):
+        self.__write('if')
+        if_stmt.if_part.bool_expr.accept(self)
+        self.__write('\n')
+        for k in if_stmt.if_part.stmt_list.stmts:
+            self.__write('    ')
+            k.accept(self)
+
 
     def visit_fun_param(self, fun_param):
         self.__write(fun_param.param_name)
