@@ -63,6 +63,60 @@ class PrintVisitor(ast.Visitor):
         self.__write(';')
         self.__write('\n')
 
+    def visit_struct_decl_stmt(self, struct_decl):
+        self.__write('\n')
+        self.__write('struct')
+        self.__write(' ')
+        self.__write(struct_decl.struct_id)
+        self.__write('\n')
+        for i in struct_decl.var_decls:
+            self.__write('    ')
+            i.accept(self)
+        self.__write('end')
+        self.__write('\n')
+        self.__write('\n')
+
+    def visit_fun_decl_stmt(self, fun_decl):
+        self.__write('\n')
+        self.__write('fun')
+        self.__write(' ')
+        if fun_decl.return_type == token.STRINGTYPE:
+            self.__write('string')
+        elif fun_decl.return_type == token.INTTYPE:
+            self.__write('int')
+        elif fun_decl.return_type == token.FLOATTYPE:
+            self.__write('float')
+        elif fun_decl.return_type == token.BOOLTYPE:
+            self.__write('bool')
+        elif fun_decl.return_type == token.NIL:
+            self.__write('nil')
+        self.__write(' ')
+        self.__write(fun_decl.fun_name)
+        self.__write('(')
+        j = 0
+        for i in fun_decl.params:
+            if j > 0:
+                self.__write(',')
+                self.__write(' ')
+            i.accept(self)
+            j = j + 1
+        self.__write(')')
+        for k in fun_decl.stmt_list.stmts:
+            self.__write('\n')
+            self.__write('    ')
+            k.accept(self)
+
+        self.__write('\n')
+        self.__write('end')
+        self.__write('\n')
+        self.__write('\n')
+
+    def visit_fun_param(self, fun_param):
+        self.__write(fun_param.param_name)
+        self.__write(':')
+        self.__write(' ')
+        self.__write(fun_param.param_type)
+
     def visit_lvalue(self, lval):
         i = 0
         self.__write(lval.path[i])
@@ -106,5 +160,3 @@ class PrintVisitor(ast.Visitor):
     def visit_while_stmt(self, while_stmt):
         self.__write('while')
         self.__write('\n')
-
-#... etc. ...

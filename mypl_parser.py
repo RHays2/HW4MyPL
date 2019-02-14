@@ -342,13 +342,12 @@ class Parser(object):
             self.__eat(token.ID, "Missing 'ID'")
             simple_expr_node.term = new_rvalue_node
         elif self.current_token.tokentype == token.ID:
-            self.__idrval(simple_expr_node)
+            self.__idrval(simple_expr_node, complex_expr_node)
         else:
             self.__error("Missing variable declaration")
 
-
     # defines values for ID
-    def __idrval(self, simple_expr_node):
+    def __idrval(self, simple_expr_node, complex_expr_node):
         if self.current_token.tokentype == token.ID:
             call_rvalue_node = ast.CallRValue()
             call_rvalue_node.fun = self.current_token.lexeme
@@ -356,6 +355,7 @@ class Parser(object):
             id_rvalue_node = ast.IDRvalue()
             id_rvalue_node.path.append(self.current_token.lexeme)
             simple_expr_node.term = id_rvalue_node
+            complex_expr_node.first_operand = id_rvalue_node
             self.__advance()
             if self.current_token.tokentype == token.DOT:
                 while self.current_token.tokentype == token.DOT:
