@@ -89,8 +89,7 @@ class PrintVisitor(ast.Visitor):
             i = i + 1
 
     def visit_simple_expr(self, simple_expr):
-        if simple_expr.term != None:    # issue
-            simple_expr.term.accept(self)
+        simple_expr.term.accept(self)
 
     def visit_simple_rvalue(self, simple_rvalue):
         self.__write(simple_rvalue.val)

@@ -349,13 +349,13 @@ class Parser(object):
 
             id_rvalue_node = ast.IDRvalue()
             id_rvalue_node.path.append(self.current_token.lexeme)
+            simple_expr_node.term = id_rvalue_node
             self.__advance()
             if self.current_token.tokentype == token.DOT:
                 while self.current_token.tokentype == token.DOT:
                     self.__advance()
                     id_rvalue_node.path.append(self.current_token.lexeme)
                     self.__eat(token.ID, "Missing 'ID'")
-                simple_expr_node.term = id_rvalue_node
             elif self.current_token.tokentype == token.LPAREN:
                 self.__eat(token.LPAREN, "Missing left parenthesis")
                 self.__exprlist(call_rvalue_node)
