@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be73e15c-3a28-4724-9ada-eba54d09badb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/hw4_t4.mypl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mypl_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mypl_print_visitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/mypl_print_visitor.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mypl_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="292" column="25" selection-start-line="292" selection-start-column="25" selection-end-line="292" selection-end-column="25" />
+            <state relative-caret-position="203">
+              <caret line="299" column="28" lean-forward="true" selection-start-line="299" selection-start-column="28" selection-end-line="299" selection-end-column="28" />
               <folding>
                 <element signature="n#!!doc" />
                 <element signature="e#386#412#0" expanded="true" />
@@ -34,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mypl_ast.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="173">
               <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="10" />
             </state>
           </provider>
@@ -43,8 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mypl_print_visitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+            <state relative-caret-position="277">
+              <caret line="62" column="46" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
               <folding>
                 <element signature="e#89#115#0" expanded="true" />
               </folding>
@@ -250,7 +250,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550037199496</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="testing printer">
+      <created>1550105572345</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1550105572346</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -278,7 +285,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="testing ast" />
-    <option name="LAST_COMMIT_MESSAGE" value="testing ast" />
+    <MESSAGE value="testing printer" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing printer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -364,10 +372,24 @@
     <entry file="file://$PROJECT_DIR$/hw4_t4.mypl">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/hw4_t3.mypl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mypl_ast.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mypl_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="292" column="25" selection-start-line="292" selection-start-column="25" selection-end-line="292" selection-end-column="25" />
+        <state relative-caret-position="203">
+          <caret line="299" column="28" lean-forward="true" selection-start-line="299" selection-start-column="28" selection-end-line="299" selection-end-column="28" />
           <folding>
             <element signature="n#!!doc" />
             <element signature="e#386#412#0" expanded="true" />
@@ -379,24 +401,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mypl_ast.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw4_t3.mypl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mypl_print_visitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+        <state relative-caret-position="277">
+          <caret line="62" column="46" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
           <folding>
             <element signature="e#89#115#0" expanded="true" />
           </folding>

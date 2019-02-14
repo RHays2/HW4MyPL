@@ -293,7 +293,7 @@ class Parser(object):
             complex_expr_node.first_operand = self.__expr()
             self.__eat(token.RPAREN, "Missing right parenthesis")
         else:   # simple expression
-            self.__rvalue(simple_expr_node)
+            self.__rvalue(simple_expr_node, complex_expr_node)
         mathrels = [token.PLUS, token.MINUS, token.DIVIDE, token.MULTIPLY, token.MODULO]
         if self.current_token.tokentype in mathrels:
             complex_expr_node.math_rel = self.current_token.lexeme
@@ -303,7 +303,7 @@ class Parser(object):
         return simple_expr_node
 
     # defines right values for expressions
-    def __rvalue(self, simple_expr_node):
+    def __rvalue(self, simple_expr_node, complex_expr_node):
         if self.current_token.tokentype == token.STRINGVAL:
             simple_rvalue_node = ast.SimpleRValue()
             simple_rvalue_node.val = self.current_token.lexeme
@@ -339,6 +339,7 @@ class Parser(object):
             self.__idrval(simple_expr_node)
         else:
             self.__error("Missing variable declaration")
+        complex_expr_node.first_operand = simple_expr_node
 
     # defines values for ID
     def __idrval(self, simple_expr_node):

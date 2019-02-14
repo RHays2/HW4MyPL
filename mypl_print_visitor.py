@@ -60,6 +60,7 @@ class PrintVisitor(ast.Visitor):
             self.__write(simple_rvalue.val)
 
     def visit_complex_expr(self, complex_expr):
+        complex_expr.first_operand.accept(self)
         self.__write(' ')
         self.__write(complex_expr.math_rel)
         self.__write(' ')
