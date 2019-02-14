@@ -28,14 +28,45 @@ class PrintVisitor(ast.Visitor):
         expr_stmt.expr.accept(self)
         self.__write(';\n')
 
-
     def visit_var_decl_stmt(self, var_decl):
         self.__write('var')
         self.__write(' ')
         self.__write(var_decl.var_id)
+        if var_decl.var_type != None:   # if there is a type for the var
+            self.__write(':')
+            self.__write(' ')
+            if var_decl.var_type == token.STRINGTYPE:
+                self.__write('string')
+            elif var_decl.var_type == token.INTTYPE:
+                self.__write('int')
+            elif var_decl.var_type == token.FLOATTYPE:
+                self.__write('float')
+            elif var_decl.var_type == token.BOOLTYPE:
+                self.__write('bool')
+            elif var_decl.var_type == token.NIL:
+                self.__write('nil')
+        self.__write(' ')
+        self.__write('=')
+        self.__write(' ')
+        var_decl.var_expr.accept(self)
+        self.__write(';')
+        self.__write('\n')
 
-    def visit_id_rvalue(self, id_rvalue):
+    def visit_simple_expr(self, simple_expr):
+        self.visit_simple_rvalue(simple_expr.term)
 
+    def visit_simple_rvalue(self, simple_rvalue):
+        if simple_rvalue.val != None:
+            self.__write(simple_rvalue.val)
 
+    def visit_complex_expr(self, complex_expr):
+        self.__write(' ')
+        self.__write(complex_expr.math_rel)
+        self.__write(' ')
+        complex_expr.rest.accept(self)
+
+    def visit_while_stmt(self, while_stmt):
+        self.__write('while')
+        self.__write('\n')
 
 #... etc. ...
